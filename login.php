@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Login</title>
+ <title>Login</title>
     <style>
       body {
         background-color: #f2f2f2;
@@ -19,7 +17,7 @@
         text-align: center;
         color: #333;
       }
-      input[type="text"],
+      input[type="email"],
       input[type="password"] {
         width: 100%;
         padding: 12px 20px;
@@ -48,8 +46,8 @@
     <div class="login-box">
       <h2>Login</h2>
       <form action="/login.php" method="get">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter username">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter email">
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter password">
         <button type="submit">Login</button>
