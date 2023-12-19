@@ -1,3 +1,23 @@
+<?php
+    session_start();
+    if($_POST){
+        include('connection.php');
+
+        $sql = 'SELECT * FROM users';
+        $result = $conn->query($sql);
+        $user = $result->fetch_assoc();
+        
+        if ($user["password"] == $_POST['password'] and $user["email"] == $_POST['username']) {
+            $_SESSION['user'] = $user;
+            
+            header('Location: dashboard.php');
+        } else {
+        echo "0 results";
+        }
+        $conn->close();
+            }
+?>
+
 <!DOCTYPE html>
  <title>Login</title>
     <style>
@@ -17,7 +37,7 @@
         text-align: center;
         color: #333;
       }
-      input[type="email"],
+      input[type="text"],
       input[type="password"] {
         width: 100%;
         padding: 12px 20px;
@@ -45,9 +65,9 @@
   <body>
     <div class="login-box">
       <h2>Login</h2>
-      <form action="/login.php" method="get">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter email">
+      <form action="/roumen/inventory_management_platform/login.php" method="POST">
+        <label for="username">Email</label>
+        <input type="text" id="username" name="username" placeholder="Enter username">
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter password">
         <button type="submit">Login</button>
