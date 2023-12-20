@@ -1,21 +1,28 @@
 <?php
     session_start();
-    if($_POST){
+    /*if (isset($_SESSION["user"])) {
+        header('location: dashboard.php');
+        $user = $_SESSION["user"];
+    }*/
+
+    if(isset($_POST['submit']) and isset($_POST['username']) and isset($_POST['password'])){
         include('connection.php');
 
-        $sql = 'SELECT * FROM users';
-        $result = $conn->query($sql);
-        $user = $result->fetch_assoc();
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $sql = "SELECT * FROM users WHERE email = '$username' && password = '$password'";
+        $result = mysqli_query($conn, $sql);
         
-        if ($user["password"] == $_POST['password'] and $user["email"] == $_POST['username']) {
-            $_SESSION['user'] = $user;
-            
+        if (mysqli_num_rows($result)>0){
+            $_SESSION['user'] = mysqli_fetch_array($result);
+      
             header('Location: dashboard.php');
         } else {
         echo "0 results";
         }
         $conn->close();
-            }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +77,7 @@
         <input type="text" id="username" name="username" placeholder="Enter username">
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter password">
-        <button type="submit">Login</button>
+        <button type="submit" name="submit">Login</button>
       </form>
     </div>
   </body>
