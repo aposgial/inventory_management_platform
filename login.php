@@ -1,9 +1,8 @@
 <?php
     session_start();
-    /*if (isset($_SESSION["user"])) {
+    if (isset($_SESSION["user"])) {
         header('location: dashboard.php');
-        $user = $_SESSION["user"];
-    }*/
+    }
 
     if(isset($_POST['submit']) and isset($_POST['username']) and isset($_POST['password'])){
         include('connection.php');
