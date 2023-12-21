@@ -1,23 +1,23 @@
 <?php
     session_start();
 
-    if (!isset($_SESSION["user"])) {
-        header('location: login.php');
+    if (!isset($_SESSION["user_id"])) {
+        header('location: customers.php');
     } else {
         $user = $_SESSION["user"];
+        $user_id = $_SESSION["user_id"];
     }
-    $user_id = $user["id"];
 
     include('connection.php');
     $sql = "SELECT * FROM `customers` WHERE id = '$user_id'";
     $result_customers = mysqli_query($conn,$sql);
-    $_SESSION["user_id"] = $user_id;
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer dashboard</title>
+    <title>Customers</title>
     <style>
         body {
             margin: 0;
@@ -86,7 +86,22 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
 
+        .button:hover {
+            background-color: #3e8e41;
+        }
     </style>
 </head>
 <body>
@@ -110,9 +125,7 @@
     </style>
 
         <ul>
-            <li><a href="/roumen/inventory_management_platform/dashboard.php">Dashboard</a></li>
-            <li><a href="/roumen/inventory_management_platform/customers_list.php">Customers</a></li>
-            <li><a href="/roumen/inventory_management_platform/add_customer.php">Add customer</a></li>
+            <li><a href="/roumen/inventory_management_platform/customers.php">Customers dashboard</a></li> 
         </ul>
     </div>
     
@@ -127,35 +140,38 @@
         <table width="100%">
             <thead>
                 <tr>
+                <th>ID</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Customer ID</th>
-                <th>Total quantity</th>
-                <th>Total price</th>
+                <th>Phone</th>
+                <th>City</th>
+                <th>Items</th>
+                <th>Update</th>
+                <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
                     if ($result_customers){
                         while($data=mysqli_fetch_assoc($result_customers)){
+                            $_SESSION["customer_id"] = $data['customer_id'];
                             echo'<tr>
+                            <td>'.$data['customer_id'].'</td>
                             <td>'.$data['username'].'</td>
                             <td>'.$data['email'].'</td>
-                            <td>'.$data['customer_id'].'</td>';
+                            <td>'.$data['phone'].'</td>
+                            <td>'.$data['city'].'</td>
+                            <td>
+                                <a href="/roumen/inventory_management_platform/items.php" class="button">Items</a>
+                            </td>
+                            <td>
+                                <a href="/roumen/inventory_management_platform/update_customer.php" class="button">Update</a>
+                            </td>
+                            <td>
+                                <a href="/roumen/inventory_management_platform/delete_customer.php" class="button">Delete</a>
+                            </td>
+                            <tr>';
 
-                            $customer_id = $data['customer_id'];
-                            $sql = "SELECT * FROM `items` WHERE customer_id = '$customer_id'";
-                            $result_items = mysqli_query($conn,$sql);
-
-                            $sum_quantity = 0;
-                            $sum_price = 0;
-                            while($item=mysqli_fetch_assoc($result_items)){
-                                $sum_quantity += $item['quantity'];
-                                $sum_price += (float) $item['price'];
-                            }
-                            echo'<td>'.$sum_quantity.'</td>
-                            <td>$'.$sum_price.'</td>
-                            </tr>';
                         }
                     }
                         

@@ -86,7 +86,7 @@
 
         <ul>
             <li><a href="/roumen/inventory_management_platform/dashboard.php">dashboard</a></li>
-            <li><a href="/roumen/inventory_management_platform/customers.php">Customers</a></li>
+            <li><a href="/roumen/inventory_management_platform/customers.php">Customers dashboard</a></li>
             <li><a href="/roumen/inventory_management_platform/update_user.php">Update profile</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
